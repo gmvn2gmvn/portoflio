@@ -3,30 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>gmvn &mdash; Ritter Butzke</title>
-<link rel="stylesheet" href="../project.css">
+<title>gmvn — Ritter Butzke</title>
+<meta name="description" content="Ritter Butzke — ongoing video production for one of Berlin's defining clubs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    background: #060608;
+    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.97);
+  }
+
+  a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.25s ease; }
+  a:hover { color: #fff; }
+
+  .case {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .case-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 72% 40%;
+    filter: brightness(0.52) contrast(1.02) saturate(1.1);
+    z-index: 0;
+  }
+
+  .case-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(6,6,8,0.25) 0%, rgba(6,6,8,0.2) 28%, rgba(6,6,8,0.72) 68%, #060608 100%);
+    z-index: 0;
+  }
+
+  .grain {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.26;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+
+  /* Nav */
+  .p-nav {
+    position: relative; z-index: 3;
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 44px 72px 0;
+  }
+  .p-nav .mark {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* Back link */
+  .p-back {
+    position: relative; z-index: 3;
+    display: flex; justify-content: center; align-items: center;
+    padding: 56px 72px 0;
+  }
+  .p-back a {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+  .p-back a:hover { color: #fff; }
+
+  /* Hero */
+  .p-hero {
+    position: relative; z-index: 3;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: end;
+    padding: 96px 72px 80px;
+  }
+  .p-hero-left { display: flex; flex-direction: column; gap: 22px; }
+  .p-hero-left h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 300;
+    font-size: 128px; line-height: 0.88;
+    color: rgba(255,255,255,0.97);
+  }
+  .p-hero-left p {
+    font-size: 13px; line-height: 1.9; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.6); max-width: 440px;
+  }
+  .p-hero-right { display: flex; flex-direction: column; gap: 16px; }
+  .p-caption { font-size: 13px; letter-spacing: 0.04em; color: rgba(255,255,255,0.7); }
+
+  /* Video slots */
+  .p-video {
+    position: relative; aspect-ratio: 16/9; overflow: hidden; background: #000;
+  }
+  .p-video .play {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .p-video .play span {
+    font-size: 12px; letter-spacing: 0.1em; color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.35); padding: 10px 22px; background: rgba(0,0,0,0.35);
+  }
+  .p-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  /* Stats */
+  .p-stats {
+    position: relative; z-index: 3;
+    display: flex; padding: 30px 72px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin: 0 0 56px;
+  }
+  .p-stats .stat { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .p-stats .val {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+    font-size: 52px; color: rgba(255,255,255,0.92);
+  }
+  .p-stats .lab {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45);
+  }
+
+  /* Video rows (2nd, 3rd) */
+  .p-videorow {
+    position: relative; z-index: 3;
+    display: flex; flex-direction: column; gap: 56px;
+    padding: 0 72px 80px;
+  }
+  .p-videorow .row { display: flex; gap: 48px; align-items: flex-end; }
+  .p-videorow .col {
+    width: 320px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 8px;
+  }
+  .p-videorow .frame { flex: 1; }
+
+  @media (max-width: 900px) {
+    .p-nav { padding: 22px 20px 0; }
+    .p-nav .mark { font-size: 9px; }
+
+    .p-back { padding: 18px 20px 0; }
+    .p-back a { font-size: 9px; letter-spacing: 0.12em; }
+
+    .p-hero {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 22px 20px 0;
+    }
+    .p-hero-right { order: -1; }
+    .p-hero-left h1 { font-size: 52px; line-height: 0.95; margin-top: 26px; }
+    .p-hero-left p { font-size: 11px; line-height: 1.8; letter-spacing: 0.03em; }
+    .p-caption { font-size: 11px; }
+
+    .p-stats {
+      flex-direction: column;
+      padding: 0; margin: 36px 20px 30px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: none;
+    }
+    .p-stats .stat {
+      flex-direction: row; justify-content: space-between; align-items: baseline;
+      padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .p-stats .val { font-size: 22px; }
+    .p-stats .lab { font-size: 8px; text-align: right; }
+
+    .p-videorow { gap: 36px; padding: 30px 20px 40px; }
+    .p-videorow .row { flex-direction: column; align-items: stretch; gap: 12px; }
+    .p-videorow .col { width: auto; padding-bottom: 0; }
+  }
+
+  .p-footer {
+    position: relative; z-index: 3;
+    display: flex; justify-content: center; gap: 8px;
+    padding: 0 20px 60px;
+    font-size: 12px; letter-spacing: 0.1em; color: rgba(255,255,255,0.4);
+  }
+  .p-footer a { color: rgba(255,255,255,0.4); }
+</style>
 </head>
 <body>
 
-<div class="case" style="min-height:100vh; display:flex; flex-direction:column;">
-  <img class="case-bg" src="../assets/hero_pic2.jpg" alt="">
+<div class="case">
+  <img class="case-bg" src="assets/hero.jpg" alt="">
   <div class="case-scrim"></div>
   <div class="grain"></div>
 
   <nav class="p-nav">
-    <a class="mark" href="../index.html">Gustavs Skujins</a>
-    <div class="links">
-      <a href="../photography.html">Photography</a>
-      <a class="current" href="../work.html">Client Work</a>
-    </div>
+    <a class="mark" href="index.html">Gustavs Skujins</a>
   </nav>
 
-  <div class="p-switcher">
-    <a class="arrow" href="berlin-pride-2026.html">&lsaquo;</a>
-    <a class="side" href="berlin-pride-2026.html">Berlin Pride 2026</a>
-    <span class="current">Ritter Butzke</span>
-    <a class="side" href="andrea-botez.html">Andrea Botez</a>
-    <a class="arrow" href="andrea-botez.html">&rsaquo;</a>
+  <div class="p-back">
+    <a href="index.html">&larr; Back to Projects</a>
   </div>
 
   <div class="p-hero">
@@ -35,10 +200,10 @@
       <p>Ongoing video production for one of Berlin&rsquo;s defining clubs &mdash; shooting and editing multi&#8209;cam live recordings and event films since 2023.</p>
     </div>
     <div class="p-hero-right">
-      <div class="p-video" data-yt="Q4VByt3b0Ag" onclick="loadVideo(this)">
+      <div class="p-video" data-yt="Q4VByt3b0Ag" data-start="445" onclick="loadVideo(this)">
         <div class="play"><span>[ Play ]</span></div>
       </div>
-      <span class="p-caption">Maceo Plex &mdash; full set</span>
+      <span class="p-caption">Maceo Plex &mdash; indoor multi&#8209;cam recording</span>
     </div>
   </div>
 
@@ -57,29 +222,33 @@
     </div>
   </div>
 
-  <div class="p-video2">
+  <div class="p-videorow">
     <div class="row">
       <div class="col">
-        <span class="p-caption">Klangphonics &mdash; full concert, F&ecirc;te de la Musique 2025</span>
+        <span class="p-caption">Klangphonics &mdash; multi&#8209;cam + handheld</span>
       </div>
-      <div class="frame p-video" data-yt="5iP6IetLptA" onclick="loadVideo(this)">
+      <div class="frame p-video" data-yt="5iP6IetLptA" data-start="838" onclick="loadVideo(this)">
+        <div class="play"><span>[ Play ]</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <span class="p-caption">1st May &mdash; backyard session</span>
+      </div>
+      <div class="frame p-video" data-yt="mny8WwKtjds" data-start="34" onclick="loadVideo(this)">
         <div class="play"><span>[ Play ]</span></div>
       </div>
     </div>
   </div>
-
-  <footer class="p-footer">
-    <a href="https://instagram.com" target="_blank">Instagram</a><span>&middot;</span>
-    <a href="https://linkedin.com" target="_blank">LinkedIn</a><span>&middot;</span>
-    <a href="#">CV</a>
-  </footer>
 </div>
 
 <script>
 function loadVideo(el){
   var id = el.getAttribute('data-yt');
+  var start = el.getAttribute('data-start');
   if(!id) return;
-  el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1" title="YouTube video" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+  var src = 'https://www.youtube.com/embed/' + id + '?autoplay=1' + (start ? '&start=' + start : '');
+  el.innerHTML = '<iframe src="' + src + '" title="YouTube video" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
   el.onclick = null;
   el.style.cursor = 'default';
 }
