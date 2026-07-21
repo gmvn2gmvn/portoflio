@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gmvn &mdash; Ritter Butzke</title>
+<link rel="stylesheet" href="../project.css">
+</head>
+<body>
+
+<div class="case" style="min-height:100vh; display:flex; flex-direction:column;">
+  <img class="case-bg" src="../assets/hero_pic2.jpg" alt="">
+  <div class="case-scrim"></div>
+  <div class="grain"></div>
+
+  <nav class="p-nav">
+    <a class="mark" href="../index.html">Gustavs Skujins</a>
+    <div class="links">
+      <a href="../photography.html">Photography</a>
+      <a class="current" href="../work.html">Client Work</a>
+    </div>
+  </nav>
+
+  <div class="p-switcher">
+    <a class="arrow" href="berlin-pride-2026.html">&lsaquo;</a>
+    <a class="side" href="berlin-pride-2026.html">Berlin Pride 2026</a>
+    <span class="current">Ritter Butzke</span>
+    <a class="side" href="andrea-botez.html">Andrea Botez</a>
+    <a class="arrow" href="andrea-botez.html">&rsaquo;</a>
+  </div>
+
+  <div class="p-hero">
+    <div class="p-hero-left">
+      <h1>Ritter<br>Butzke</h1>
+      <p>Ongoing video production for one of Berlin&rsquo;s defining clubs &mdash; shooting and editing multi&#8209;cam live recordings and event films since 2023.</p>
+    </div>
+    <div class="p-hero-right">
+      <div class="p-video" data-yt="Q4VByt3b0Ag" onclick="loadVideo(this)">
+        <div class="play"><span>[ Play ]</span></div>
+      </div>
+      <span class="p-caption">Maceo Plex &mdash; full set</span>
+    </div>
+  </div>
+
+  <div class="p-stats">
+    <div class="stat">
+      <span class="val">16k &rarr; 50k</span>
+      <span class="lab">Channel subscribers, 2023&ndash;26</span>
+    </div>
+    <div class="stat">
+      <span class="val">2023&ndash;26</span>
+      <span class="lab">Ongoing relationship</span>
+    </div>
+    <div class="stat">
+      <span class="val">Multi-cam</span>
+      <span class="lab">Shooting &amp; editing</span>
+    </div>
+  </div>
+
+  <div class="p-video2">
+    <div class="row">
+      <div class="col">
+        <span class="p-caption">Klangphonics &mdash; full concert, F&ecirc;te de la Musique 2025</span>
+      </div>
+      <div class="frame p-video" data-yt="5iP6IetLptA" onclick="loadVideo(this)">
+        <div class="play"><span>[ Play ]</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-footer">
+    <a href="https://instagram.com" target="_blank">Instagram</a><span>&middot;</span>
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a><span>&middot;</span>
+    <a href="#">CV</a>
+  </footer>
+</div>
+
+<script>
+function loadVideo(el){
+  var id = el.getAttribute('data-yt');
+  if(!id) return;
+  el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1" title="YouTube video" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+  el.onclick = null;
+  el.style.cursor = 'default';
+}
+</script>
+
+</body>
+</html>
